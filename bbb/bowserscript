@@ -1,0 +1,10 @@
+#!/bin/bash
+ 
+bbb 2 &   
+sleep 3
+user 5 & 
+user 3 &
+sleep 10
+user 4 & 
+user 0 
+
