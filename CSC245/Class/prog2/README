@@ -1,0 +1,13 @@
+ 
+	Goal of the Client File
+	---------------------------
+		The purpose of the program is to bring back the use of the reverse polish desk calculator. Instead of doing math operations like how the 
+	computer does them now, before they would enter the operands first and the operator last. Hence the name PostFix, the operator is done 
+	after the operands have been added. 
+
+	The user should be able to enter operators such as +._(for minus), *, /, and % (for remainder) They will enter the numbers that they want to first 
+    and then the operator that is placed after the numbers input will be calculated and stored in memory and they can print out the value by pressing f if they wish 
+
+	The stack class is used throughout the project, the attributes are push() which push a value into the stack, pop() which removes the value that is at the top of the stack. top() which retreives the value at the top of the stack without altering it, along with isEmpty() isFull(0 which are pretty self- explanatroy. 
+
+	

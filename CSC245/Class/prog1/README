@@ -1,0 +1,12 @@
+
+	The purpose of the text editor is to allow the user to Insert, Print go to Previous and next line until they  enter the command the exit. 
+	Sort of like our library book project in Java, where the user could continue entering stuff until they pressed the key that allows exiting. 
+	
+
+	The insert method allows the user the input whatever they wish regardless of where and it will be stored in a string that is able to hold their information. they can print out this information to see where they put it and they can either leave it where it is or delte it. 
+
+	Deleting the input will delete in from the file so the next time you open up the file you will not see it an all. 
+	Extra Feature Idea. 
+
+
+	Considering the fact that one can get the length of the line and print it out. The amount of words that is printed out on each lien, can be stored in  a variable that keeps a track of how many words and/ or characters have been entered and the amount of words/characters in the whole file can be shown on the bottom right of the editor if you want. Just like how Word does and if the amount of words exceeds a certain amoun that equates to one page. Letting you know how many words equate to a page. 	

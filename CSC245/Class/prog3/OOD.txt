@@ -1,0 +1,17 @@
+ The Huffman Algorithm is a Greedy Algorithm, meaning it works based off on the two lowest frequency nodes. It is a loseless algorithm used for file compression
+
+
+   Methods: 
+       GetFrequency - loops through the array and finds the frequency for each character, if the character occurs more than once, the frequency will increase. 
+  	inTree- checks if something occurs in the tree and if it does return true 
+	GetCode- recursively calls the private method Getcode that returns the code of the childtype and the code of its parent. 
+	PrintTable- prints out the compressed Huffman Table 
+	numNodes- returns the number of nodes in the tree 
+	
+
+	When the file is ZIPPED, state that the file has been zipped and when the file is UNZIPPED, state that the file has been UNZIPPED.
+a variable named built is proved true if the huffman tree is built successufully, and false if otherwise. 
+The variable of numChars just holds all the characters implemented the the Tree. 
+
+
+	In order to find the unique id, the tree has left childs noted as 0 and right childs noted as 1. No character and occur at the same location in the node, so each character has its own unique id.  

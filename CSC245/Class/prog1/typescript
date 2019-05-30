@@ -1,0 +1,246 @@
+Script started on Thu 09 Feb 2017 03:10:43 PM EST
+]0;kebe_s@cobra:~/CSC245/Class/prog1[?1034h[kebe_s@cobra prog1]$ cat editor.cpp
+#include<iostream>
+#include<string>
+#include<cctype>
+#include<fstream>
+#include<cstdlib>
+#include "linelist.h"
+using namespace std; 
+
+void OpenFile(ifstream&infile, int argc, char*argv[]); 
+void makeList(ifstream& infile, LineList& aline); 
+void SaveList(ofstream& outfile ,char *argv[], LineList& L); 
+// @param arg for file and arg of chars to hold string 
+// .. @ retrun prints out the file or ) if the condition  is false 
+int main(int argc, char*argv[]) 
+{
+        LineList L;
+        ifstream infile;
+        OpenFile(infile,argc,argv); 
+        makeList(infile,L); 
+	L.printList(); 
+
+        string name;
+        char point;
+
+        do 
+        {
+cout<<L.getCurrLineNum()-1<<"> ";
+cin >> point; 
+cin.ignore();
+      switch(point) 
+               {
+        case 'I': //This insert a new line to the current line
+cout<<L.getCurrLineNum()<<"> ";
+                getline(cin, name);
+                L.insertLine(name);
+                        break;
+        case 'D': //This deletes the current line
+                L.deleteLine();
+                        break;
+        case 'L': //This prints the list
+                L.printList();
+                        break;
+        case 'P': //This goes to the previous line
+                L.movePrevLine();
+                        break;
+        case 'N': //This goes to the next line
+                L.moveNextLine();
+                        break;
+                }
+        } while (point != 'E'); //The do -while runs until the character 'E' is pressed 
+
+ofstream outfile;
+SaveList(outfile, argv, L);
+        return 0;
+}
+
+// @ param file, argc and character of letters
+void OpenFile(ifstream&infile,int argc,char *argv[]) 
+{
+if(argc==1)
+{
+cout<<"Error!! No File Entered."<<endl;
+exit(1);
+}
+string filename = argv[1];
+infile.open(filename.c_str());
+}
+// @ param file adn and the List 
+void makeList(ifstream& infile, LineList& L) 
+{
+string line;
+while(getline(infile,line))
+{
+L.insertLine(line);
+}
+infile.close();
+}
+// @ param file, array of characters and the List 
+void SaveList(ofstream& outfile, char *argv[], LineList& L) 
+{
+string filename = argv[1];
+outfile.open(filename.c_str());
+L.goToTop();
+for(int i=0; i<L.getLength();i++)
+{
+outfile<<L.getCurrLine()<<endl;
+L.moveNextLine();
+}
+outfile.close();
+}
+]0;kebe_s@cobra:~/CSC245/Class/prog1[kebe_s@cobra prog1]$ c++ [K[K[Kat linelist.cpp
+#include<iostream>
+#include "linelist.h"
+
+LineList::LineList() //This includes some variables for the basic LineList object
+{
+LineNode *line = new LineNode;
+LineNode *line2 = new LineNode;
+
+line -> info = topMessage; //The top buffer
+currLine = line;
+currLineNum = 1;
+length = 0;
+line2 -> info = bottomMessage; //The bottom buffer
+currLine -> back = NULL;
+currLine -> next = line2;
+line2 -> back = line;
+line2 -> next = NULL;
+}
+
+void LineList::goToTop() //This takes the user to the top of the code without entering the buffer
+{
+// Post : Advances currLine to line 1
+while(currLine->back->info!=topMessage)
+{
+currLineNum--;
+currLine=currLine->back;
+}
+currLine=currLine->next;
+currLineNum++;
+}
+
+void LineList::goToBottom() //This takes the user to the bottom of the code
+{
+// Post : Advances currLine to last line
+while (currLine->next->info !=bottomMessage)
+{
+currLine=currLine->next;
+currLineNum++;
+}
+currLine=currLine->back;
+currLineNum--;
+}
+
+void LineList::insertLine(string newLine) {
+// post : newLine has been inserted after the current line
+LineNode *temp = new LineNode;
+temp->info=newLine;
+temp->next=currLine->next;
+temp->back=currLine;
+currLine->next=temp;
+temp->next->back=temp;
+currLine=temp;
+length++;
+currLineNum++;
+}
+
+void LineList::deleteLine() {
+// post : deletes the current line leaving currentLine
+//
+// pointing to line following
+
+if(length!=0)
+{
+LineNode *temp=new LineNode;
+temp = currLine->next;
+currLine->back->next=currLine->next;
+currLine->next->back=currLine->back;
+delete currLine;
+currLine=temp;
+length--;
+if(currLine->info==bottomMessage)
+{
+currLine=currLine->back;
+currLineNum--;
+}
+}
+}
+
+void LineList::printList() //This goes to the top of the code and prints it, if there is nothing to print it will say that the list is empty
+{
+LineNode *temp = currLine;
+int LineNum = 1;
+if(length!=0)
+{
+while(temp->back->back != NULL)
+temp= temp->back;
+
+while(temp->next!=NULL)
+{
+cout<<LineNum<<"> "<<temp->info<<endl;
+temp= temp->next;
+LineNum++;
+}
+LineNum=currLineNum;
+}
+
+}
+
+string LineList::getCurrLine() const //This gets the information from the currentline pointer
+{
+return currLine->info;
+}
+
+void LineList::moveNextLine() {
+// Post : Advances currLine (unless already at last line)
+if(currLine->next->info!=bottomMessage)
+{
+currLine= currLine->next;
+currLineNum++;
+}
+}
+
+void LineList::movePrevLine() {
+// Post : Advances currLine (unless already at last line
+  if(currLine->back->info!=topMessage)
+{
+currLine=currLine->back;
+currLineNum--;
+}
+
+int LineList::getCurrLineNum() const //This gets the current line number as compared to the numbers around it
+{
+return currLineNum;
+}
+
+int LineList::getLength() const //This gets the total length of the list
+{
+return length;
+}
+]0;kebe_s@cobra:~/CSC245/Class/prog1[kebe_s@cobra prog1]$ c++ editor.cpp linelist.o
+]0;kebe_s@cobra:~/CSC245/Class/prog1[kebe_s@cobra prog1]$ a.out testfile
+1> This is my second line.
+2> A brand new line is inserted!
+3> A brand new line is inserted!
+3> P
+2> L
+1> This is my second line.
+2> A brand new line is inserted!
+3> A brand new line is inserted!
+2> I
+3> This is my next line!
+3> L
+1> This is my second line.
+2> A brand new line is inserted!
+3> This is my next line!
+4> A brand new line is inserted!
+3> E
+This is the end of the line!
+This is the end of the line!
+]0;kebe_s@cobra:~/CSC245/Class/prog1[kebe_s@cobra prog1]$ exit
+exit
+
+Script done on Thu 09 Feb 2017 03:12:27 PM EST
