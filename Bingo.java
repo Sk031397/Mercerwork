@@ -34,7 +34,7 @@
 	} 
   
  }
-  	
+ 
  	/* @param array named card that references the array in main 
  */
  	public static void fillCard(int[][]card) throws IOException {		
