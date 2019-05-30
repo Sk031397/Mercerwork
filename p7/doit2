@@ -2,4 +2,4 @@ nasm -felf32 $1.asm
 ld -e _main -melf_i386 $1.o 
 rm $1.o
 mv a.out $1 
-gdb $1  
+
