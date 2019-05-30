@@ -1,24 +1,51 @@
-#Makefile
-# To use this Makefile, you type:
+# Structured makefile for camera placement
 #
-#        make gadec
-#                 
-# A binary named gadec will be produced
+#
 
-CC = gcc
-C++ = g++ 
-LIBDIRS = -L/usr/lib64
-INCDIRS = -I/usr/include
+CC = g++
+LDLIBS =  -lglut -lGL -lGLU -lm
+HEADERS = opengl.h structs.h globals.h constants.h prototypes.h
+OBJS = init.o defineBox.o drawBox.o drawAxes.o reshape.o display.o  
+#textureFlag = -DMATRIX
+debug ?= n
+ifeq ($(debug), y)
+    CFLAGS += -g -DDEBUG
+else
+    CFLAGS += -O2 
+endif
 
-.c:
-	$(CC)  $@.c $(INCDIRS) $(LIBDIRS) -o $@
 
-.cpp:
-	$(C++)  -O $@.cpp -g $(INCDIRS) $(LIBDIRS) -o $@
+all: IssaABrickHouse tags 
 
-clean :
-	rm gatest.xyz
+IssaABrickHouse :	main.o $(OBJS) 
+	$(CC) $(CFLAGS) main.o $(OBJS) -o IssaABrickHouse $(LDLIBS)
 
-reset :
-	rm gentest.xyz
-	rm gadec
+main.o : main.cc $(HEADERS)
+	$(CC) $(CFLAGS) main.cc -c
+
+init.o : init.cc $(HEADERS)
+	$(CC) $(CFLAGS) init.cc -c
+
+defineBox.o : defineBox.cc $(HEADERS)
+	$(CC) $(CFLAGS) defineBox.cc -c
+
+drawBox.o : drawBox.cc $(HEADERS)
+	$(CC) $(CFLAGS)$(textureFlag) drawBox.cc -c
+
+drawAxes.o : drawAxes.cc $(HEADERS)
+	$(CC) $(CFLAGS) drawAxes.cc -c
+
+reshape.o : reshape.cc $(HEADERS)
+	$(CC) $(CFLAGS) reshape.cc -c
+
+display.o : display.cc $(HEADERS)
+	$(CC) $(CFLAGS) display.cc -c
+clean:
+	rm *.o
+
+pristine:
+	rm *.o
+	touch *
+
+tags:
+	ctags *.h *.cc
