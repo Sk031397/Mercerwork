@@ -1,24 +1,16 @@
 # Structured makefile for camera placement
 #
 #
-
 CC = g++
+cflag = -DMATRIX
 LDLIBS =  -lglut -lGL -lGLU -lm
 HEADERS = opengl.h structs.h globals.h constants.h prototypes.h
-OBJS = init.o defineBox.o drawBox.o drawAxes.o reshape.o display.o  
-#textureFlag = -DMATRIX
-debug ?= n
-ifeq ($(debug), y)
-    CFLAGS += -g -DDEBUG
-else
-    CFLAGS += -O2 
-endif
+OBJS = init.o defineBox.o drawBox.o drawAxes.o reshape.o display.o 
+CFLAGS = -O
+all: viewp tags 
 
-
-all: IssaABrickHouse tags 
-
-IssaABrickHouse :	main.o $(OBJS) 
-	$(CC) $(CFLAGS) main.o $(OBJS) -o IssaABrickHouse $(LDLIBS)
+viewp :	main.o $(OBJS) 
+	$(CC) $(CFLAGS) main.o $(OBJS) -o viewp $(LDLIBS)
 
 main.o : main.cc $(HEADERS)
 	$(CC) $(CFLAGS) main.cc -c
@@ -30,19 +22,19 @@ defineBox.o : defineBox.cc $(HEADERS)
 	$(CC) $(CFLAGS) defineBox.cc -c
 
 drawBox.o : drawBox.cc $(HEADERS)
-	$(CC) $(CFLAGS)$(textureFlag) drawBox.cc -c
+	$(CC) $(CFLAGS) drawBox.cc -c
 
 drawAxes.o : drawAxes.cc $(HEADERS)
 	$(CC) $(CFLAGS) drawAxes.cc -c
 
 reshape.o : reshape.cc $(HEADERS)
-	$(CC) $(CFLAGS) reshape.cc -c
+	$(CC) $(cflag) $(CFLAGS) reshape.cc -c
 
 display.o : display.cc $(HEADERS)
 	$(CC) $(CFLAGS) display.cc -c
 clean:
 	rm *.o
-
+	rm viewp
 pristine:
 	rm *.o
 	touch *
