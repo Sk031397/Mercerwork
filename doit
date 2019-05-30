@@ -1,0 +1,10 @@
+echo Hello 
+echo 
+echo File loading
+ls
+who 
+echo 
+echo ME
+grep GOBEARS /etc/passwd | cut -d":" -f1
+echo byebe
+echo

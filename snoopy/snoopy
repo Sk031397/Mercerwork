@@ -1,0 +1,58 @@
+#!/bin/bash
+#Sahid Kebe 
+#csc460
+#snoopy
+#Prints out columns 
+echo -e UserID "\t\t" Name "\t\t\t" Phone "\t\t\t" TTY "\t\t" What
+#just 'snoopy' 
+if (test $# -eq 0) then
+	list=`who | cut -d" " -f1`
+#the for loop will find each individual's information and print it out in the correct format
+	for i in $list
+	do
+        	ID=`grep $i /etc/passwd | cut -d":" -f1`
+        	name=`grep $i /etc/passwd | cut -d":" -f5 | cut -d"," -f1`
+        	phone=`grep $i /etc/passwd | cut -d"," -f4 | cut -d":" -f1`
+        	tty=`w $i | cut -c"10-14" | cut -d" " -f4`
+        	what=`w -h $i | cut -c"65-80"`
+        	echo -e $ID "\t" $name "\t\t" $phone "\t\t" $tty "\t\t" $what
+	done
+#'snoopy all'
+elif(test $1 == "all" ) then
+	list=`grep GOBEARS /etc/passwd | cut -d":" -f1`
+#the for loop will find each individual's information and print it out in the correct format
+	for j in $list
+	do
+        	ID=`grep $j /etc/passwd | cut -d":" -f1`
+        	name=`grep $j /etc/passwd | cut -d":" -f5 | cut -d"," -f1`
+        	phone=`grep $j /etc/passwd | cut -d"," -f4 | cut -d":" -f1`
+        	tty=`w $j | cut -c"10-14" | cut -d" " -f4` 
+        	what=`w -h $j | cut -c"65-90"`
+		#checks to see if they are online and if not will change values of tty and what
+		if(test "$tty" == "") then
+			tty="NOT ON"
+			what=" -"
+		fi
+        	echo -e $ID "\t" $name "\t\t" $phone "\t\t" $tty "\t\t" $what
+	done
+#'snoopy user' 
+else
+	users=$*
+#the for loop will find each individual's information and print it out in the correct format
+	for k in $users
+	do
+        	ID=`grep $k /etc/passwd | cut -d":" -f1`
+        	name=`grep $k /etc/passwd | cut -d":" -f5 | cut -d"," -f1`
+        	phone=`grep $k /etc/passwd | cut -d"," -f4 | cut -d":" -f1`
+        	tty=`w $k | cut -c"10-14" | cut -d" " -f4`
+        	what=`w -h $k | cut -c"65-90"`
+		#checks to see if they are online and if not will change values of tty and what
+                if(test "$tty" == ""); then
+                        tty="NOT ON"
+                        what=" -"
+			echo -e $ID "\t" $name "\t\t" $phone "\t\t" $tty "\t\t" $what
+		else
+        		echo -e $ID "\t" $name "\t\t" $phone "\t\t" $tty "\t\t" $what
+		fi
+	done
+fi

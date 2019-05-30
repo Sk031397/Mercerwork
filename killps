@@ -1,0 +1,12 @@
+#!/bin/bash
+
+myIDs=`ps -ef | grep kebe_ss | tr -s ' ' | cut -d" " -f2`
+echo 
+echo $myIds
+echo 
+
+for x in $myIDS
+do  
+ kill -9 $x
+done 
+echo alldone

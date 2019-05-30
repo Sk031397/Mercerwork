@@ -1,0 +1,9 @@
+#!/bin/bash
+
+processes=`ps -ef | grep kebe_ss |grep a.out| tr -s " "|cut -d" " -f2`
+
+for x in $processes
+do
+	echo $x
+	kill -9 $x
+done

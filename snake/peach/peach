@@ -1,0 +1,75 @@
+#!/bin/bash 
+#Sahid Kebe
+#1/14/19
+# runs a certain line of commands until the command prompt is exited  
+#peach editor 
+
+echo "Running Program" 
+cmd='no'
+args='no'
+#does the program as long as peeloff is not called
+while (test "$cmd" != "peeloff")
+do 
+	echo -n "Peach> " # Prints peach on every command line 
+	read cmd args # reads in user input 
+	if ( test $cmd == "peeloff") then #does the peeloff command 
+		cmd="peeloff"
+	elif(test $cmd == "peachfuzz") then 
+		echo "peachcobbler" "peachpal" "peachers" "cream" # prints out all commands that Peach has
+		echo "peachfuzz" "peachy" "peachpie" "snake " "peeloff" 
+	elif(test $cmd == "peachers") then #Does this when peachers is entered 
+		name=`who | cut -d" " -f1`	
+		for x in $name
+		do
+			list=`grep $x /etc/passwd | cut -d":" -f5 | cut -d"," -f1`
+			echo $list		#Prints out the list of names of the people that are logged on
+		done 
+	elif( test $cmd == "cream") then # does this when cream is entered  
+		directory=`ls` # shows the current directory and what is in it 
+		for x in $directory
+		do 
+			echo $x
+		done 
+	elif(test $cmd == "peachsmash") then #does this when the special command 'peachsmash' is entered 
+		bash  # secret message goes into another bash 
+	elif(test $cmd == "peachpal") then #Does this when peachpal and some userid is entered
+		userid=$args
+		echo -e Name "\t\t" Office Phone
+		for x in $userid
+		do
+			user=`grep $x /etc/passwd | cut -d":" -f5 | cut -d"," -f1`
+			phone=`grep $x /etc/passwd | cut -d"," -f4 | cut -d":" -f1`
+			echo -e $user "\t" $phone
+		done	
+	elif(test $cmd == "peachcobbler") then 
+		file=$args
+		less $file  #shows the filename and allows the scrolling through the filename 
+	elif(test $cmd == "peachpie") then 
+		file=$args 
+		vi $file# goes into editor mode of the file 
+	elif(test $cmd == "snake") then 
+		./snake $args # does the snake comand when run 
+	elif(test $cmd == "peachy") then 
+		useron=`who | cut -d" " -f1`
+		for x in $useron
+		do 
+			list=`grep $x /etc/passwd | cut -d":" -f5 | cut -d "," -f1`
+			echo -e "Say goodbye to all your work in $list you have been a lazy coder"
+		done
+		sleep 4 
+		echo -n Deleting All Files ... 
+		sleep 1 
+		echo -n 3
+		sleep 1
+		echo -n " " 2
+		sleep 1 
+		echo -n " " 1				#does something random 
+		sleep 2 
+		clear 
+		echo " " Just messing with you, you still lazy but I am not that cruel 
+			  
+	else
+		echo "Not a valid command"
+	fi 
+done 
+echo "All Done"
